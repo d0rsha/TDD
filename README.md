@@ -8,4 +8,7 @@
 git checkout master
 git merge --squash feature/bugfix
 git commit
+
+# If you wish to save commit history for the commits from feature/bugfix:
+# git checkout feature/bugfix && git push origin feature/bugfix
 ```
