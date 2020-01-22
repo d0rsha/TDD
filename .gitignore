@@ -1,0 +1,8 @@
+**/given_files
+**/*.pyc
+**/a.out
+**/*.in
+**/__pycache__
+
+# Negotiation
+#!**/*.*
