@@ -35,4 +35,5 @@ class TestCaseTest(TestCase):
     test.run()
     assert(test.wasSetUp)
 
+
 TestCaseTest("testRunning").run()
