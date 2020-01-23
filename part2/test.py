@@ -12,10 +12,11 @@ class TestCase:
     result = TestResult()
     result.testStarted()
     self.setUp()
+    # Breaks assertions in TestCaseTest
     try:
       method = getattr(self, self.name)
       method()
-    except (Exception):
+    except:
       result.testFailed()
     self.tearDown()
     return result
@@ -65,6 +66,13 @@ class TestCaseTest(TestCase):
     result.testFailed()
     assert("1 run, 1 failed" == result.summary())
 
+  def testSuite(self):
+    suite = TestSuite()
+    suite.add(WasRun("testMethod"))
+    suite.add(WasRun("testBrokenMethod"))
+    result = suite.run()
+    assert("2 run, 1 failed qweqwe" == result.summary())
+
 
 class TestResult:
   def __init__(self):
@@ -81,4 +89,23 @@ class TestResult:
     return f"{self.runCount} run, {self.errorCount} failed"
 
 
-TestCaseTest("testTemplateMethod").run()
+class TestSuite:
+  def __init__(self):
+    self.tests = []
+
+  def add(self, test):
+    self.tests.append(test)
+
+    def run(self):
+      result = TestResult()
+      for test in self.tests:
+        test.run(result)
+      print("result", result)
+      return result
+
+
+print(TestCaseTest("testTemplateMethod").run().summary())
+print(TestCaseTest("testResult").run().summary())
+print(TestCaseTest("testFailedResult").run().summary())
+print(TestCaseTest("testFailedResultFormatting").run())
+print(TestCaseTest("testSuite").run().summary())
