@@ -5,10 +5,14 @@ class TestCase:
   def setUp(self):
     pass
 
+  def tearDown(self):
+    pass
+
   def run(self):
     self.setUp()
     method = getattr(self, self.name)
     method()
+    self.tearDown()
 
 
 class WasRun(TestCase):
@@ -23,6 +27,9 @@ class WasRun(TestCase):
     self.wasRun = 1
     self.log += "testMethod "
 
+  def tearDown(self):
+    self.log += "tearDown "
+
 
 class TestCaseTest(TestCase):
   def setUp(self):
@@ -31,7 +38,8 @@ class TestCaseTest(TestCase):
   def testTemplateMethod(self):
     test = WasRun("testMethod")
     test.run()
-    assert("setUp testMethod " == test.log)
+    print(test.log)
+    assert("setUp testMethod tearDown ")
     # self.test.run()
     # assert("setUp testMethod " == self.test.log)
 
